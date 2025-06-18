@@ -14,8 +14,22 @@ class LoginPage extends StatelessWidget {
           SizedBox(height: 20),
           inputText(),
           SizedBox(height: 20),
-          inputText()
+          inputText(),
+          SizedBox(height: 20),
+          buttonLogin(),
         ]),
+      ),
+    );
+  }
+
+  Widget buttonLogin(){
+    return ElevatedButton(
+      onPressed: () {
+        // Acción al presionar el botón
+      },
+      child: Text("Iniciar Sesión"),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       ),
     );
   }
@@ -28,6 +42,15 @@ class LoginPage extends StatelessWidget {
         border: OutlineInputBorder(),
         suffixIcon: Icon(Icons.person),
       ),
+    );
+  }
+
+  Widget imgLogin(){
+    return Image.asset(
+      "assets/images/login.png",
+      width: 200,
+      height: 200,
+      fit: BoxFit.cover,
     );
   }
 
