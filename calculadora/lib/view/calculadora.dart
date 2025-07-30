@@ -22,23 +22,12 @@ class _MyCalculadoraPageState extends State<MyCalculadoraPage> {
 
 //procedimiento para calcular
   void calcular(String operacion) {
-    double? num1 = double.tryParse(num1Controller.text);
-    double? num2 = double.tryParse(num2Controller.text);
-
-    if (num1 == null || num2 == null) {
-      //setState para actualizar el resultado
-      setState(() {
-        resultado = "Ingresa números válidos";
-      });
-      return;
-    }
-
 
     String res ="0"; // Inicializar res para evitar errores de referencia
 
     switch (operacion) {
       case '+':
-        res = Calculadora(num1.toString(), num2.toString()).sumar();
+        res = Calculadora(num1Controller.text, num2Controller.text).sumar();
         break;
       case '-':
         //res = Calculadora(num1.toString(), num2.toString()).restar();
@@ -47,7 +36,7 @@ class _MyCalculadoraPageState extends State<MyCalculadoraPage> {
         //res = Calculadora(num1.toString(), num2.toString()).multiplicar();
         break;
       case '/':
-        if (num2 == 0) {
+        if (num1Controller.text == "0") {
           resultado = "División por cero";
           setState(() {});
           return;
@@ -57,11 +46,8 @@ class _MyCalculadoraPageState extends State<MyCalculadoraPage> {
       default:
         res = "0";
     }
-
     setState(() {
-      
       resultado = "Resultado: ${res}";
-
     });
   }
 
