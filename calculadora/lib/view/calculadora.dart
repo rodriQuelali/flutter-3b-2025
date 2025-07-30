@@ -1,4 +1,5 @@
 
+import 'package:calculadora/model/Calculadora.dart';
 import 'package:flutter/material.dart';
 
 class MyCalculadoraPage extends StatefulWidget {
@@ -9,135 +10,111 @@ class MyCalculadoraPage extends StatefulWidget {
 }
 
 class _MyCalculadoraPageState extends State<MyCalculadoraPage> {
+
+
+  //variables para los controladores de texto
+  // later var txtNombre: Editexet
+  //varianble global
+  TextEditingController num1Controller = TextEditingController();
+  TextEditingController num2Controller = TextEditingController();
+
+  String resultado = "";
+
+//procedimiento para calcular
+  void calcular(String operacion) {
+    double? num1 = double.tryParse(num1Controller.text);
+    double? num2 = double.tryParse(num2Controller.text);
+
+    if (num1 == null || num2 == null) {
+      //setState para actualizar el resultado
+      setState(() {
+        resultado = "Ingresa números válidos";
+      });
+      return;
+    }
+
+
+    String res ="0"; // Inicializar res para evitar errores de referencia
+
+    switch (operacion) {
+      case '+':
+        res = Calculadora(num1.toString(), num2.toString()).sumar();
+        break;
+      case '-':
+        //res = Calculadora(num1.toString(), num2.toString()).restar();
+        break;
+      case '*':
+        //res = Calculadora(num1.toString(), num2.toString()).multiplicar();
+        break;
+      case '/':
+        if (num2 == 0) {
+          resultado = "División por cero";
+          setState(() {});
+          return;
+        }
+        //res = Calculadora(num1.toString(), num2.toString()).dividir();
+        break;
+      default:
+        res = "0";
+    }
+
+    setState(() {
+      
+      resultado = "Resultado: ${res}";
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Calculadora'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
-            onPressed: () {
-              // Acción del botón de configuración
-            },
-          ),
-        ],
-      ),
-      body: Container(
-        padding: EdgeInsets.all(16.0),
+      appBar: AppBar(title: Text("Calculadora Flutter")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            _inoutField('Ingrese datos...'),
+            TextField(
+              //alamacenamiento de texto del ingreso del user
+              controller: num1Controller,
+              //fin
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Número 1'),
+            ),
+            TextField(
+              controller: num2Controller,
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(labelText: 'Número 2'),
+            ),
             SizedBox(height: 20),
-            _resultField(),
-            Row(
+            Wrap(
+              spacing: 10,
               children: [
-                Expanded(
-                  child: 
-                  _button('1',
-                  () {
-                      // Acción del botón 1
-                    },
-                  ),
+                ElevatedButton(
+                  onPressed: () => calcular('+'),
+                  child: Text('+'),
                 ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: _button('2',
-                  () {
-                      // Acción del botón 2
-                    },
-                  ),
+                ElevatedButton(
+                  onPressed: () => calcular('-'),
+                  child: Text('-'),
                 ),
-
-                SizedBox(width: 10),
-                Expanded(
-                  child: _button('3',
-                  () {
-                      // Acción del botón 2
-                    },
-                  ),
+                ElevatedButton(
+                  onPressed: () => calcular('*'),
+                  child: Text('×'),
                 ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: _button('+',
-                  () {
-                      // Acción del botón 2
-                    },
-                  ),
+                ElevatedButton(
+                  onPressed: () => calcular('/'),
+                  child: Text('÷'),
                 ),
               ],
             ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: _button('4',
-                  () {
-                      // Acción del botón 4
-                    },
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: _button('5',
-                  () {
-                      // Acción del botón 5
-                    },
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: _button('6',
-                  () {
-                      // Acción del botón 6
-                    },
-                  ),
-                ),
-                SizedBox(width: 10),
-                Expanded(
-                  child: _button('-',
-                  () {
-                      // Acción del botón -
-                    },
-                  ),
-                ),
-              ],
-            ),
+            SizedBox(height: 30),
+            Text(
+              resultado,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            )
           ],
         ),
-      )
-    );
-  }
-
-  Widget _resultField() {
-      return Container(
-        padding: EdgeInsets.all(16.0),
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.blueAccent),
-          borderRadius: BorderRadius.circular(8.0),
-        ),
-        child: Text(
-          'Resultado',  
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      );
-    }
-
-  Widget _button(String label, VoidCallback onPressed) {
-    return ElevatedButton(
-      onPressed: onPressed,
-      child: Text(label),
-    );
-  }
-
-
-  Widget _inoutField(String label) {
-    return TextField(
-      decoration: InputDecoration(
-        labelText: label,
-        border: OutlineInputBorder(),
       ),
-      keyboardType: TextInputType.number,
     );
   }
 }
