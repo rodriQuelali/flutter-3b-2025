@@ -6,6 +6,12 @@ class Calculadora {
 
   Calculadora(this._num1, this._num2);
 
+  // Crear una clase que que valide los datos de entrada y oiperador, y la llame al clase Calculadora.
+  // utlizar POO, asociacion, agregacion o dependencia. 
+  // y verificar que principio es SOLID.
+  // rediseño La UI de la calculadora.
+  // UI solo tiene que llamar ala clase validar, no tiene que realizar ninguna operacion.
+
   String sumar(){
     String data = valiadarDatosEntrada(_num1, _num2);
     if (data != "") {
